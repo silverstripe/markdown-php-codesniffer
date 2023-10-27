@@ -1,0 +1,15 @@
+{
+    "name": "silverstripe/markdown-php-codesniffer",
+    "require": {
+        "squizlabs/php_codesniffer": "^3.7",
+        "league/commonmark": "^2.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "SilverStripe\\MD_PHP_CodeSniffer\\": "src/"
+        }
+    },
+    "bin": [
+        "bin/mdphpcs"
+    ]
+}
