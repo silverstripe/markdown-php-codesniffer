@@ -48,7 +48,6 @@ final class Sniffer
         $sniffer->reporter = new Reporter($sniffer->config);
 
         // Find all the relevant code blocks for linting
-        // $files = $this->findMarkdownFiles($sniffer->config, $sniffer->ruleset);
         if (PHP_CODESNIFFER_VERBOSITY > 0) {
             echo 'Finding markdown files... ';
         }
@@ -165,7 +164,7 @@ final class Sniffer
         }
 
         $blocks = [];
-        
+
         /** @var string $path */
         foreach ($paths as $path => $v) {
             $document = $this->parser->parse(file_get_contents($path));
@@ -211,7 +210,7 @@ final class Sniffer
 
     /**
      * Run the codesniffing rules over the identified markdown codeblocks
-     * 
+     *
      * This is very nearly a direct copy of Runner::run()
      */
     private function sniff(Runner $sniffer, array $todo): int
@@ -236,7 +235,7 @@ final class Sniffer
 
                     $lastDir = $currDir;
                 }
-                
+
                 $sniffer->processFile($block);
             } else if (PHP_CODESNIFFER_VERBOSITY > 0) {
                 echo 'Skipping ' . basename($block->path) . PHP_EOL;

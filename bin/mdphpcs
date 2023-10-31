@@ -42,7 +42,7 @@ for ($i = 0; $i < $numArgs; $i++) {
         $removeArgs[] = $i;
         $removeArgs[] = $i + 1;
     } elseif (str_starts_with($arg, '--lint-language=')) {
-        $lintLanguage = str_replace('--lint-language=', '', $arg);
+        $lintLanguage = strtoupper(str_replace('--lint-language=', '', $arg));
         $removeArgs[] = $i;
     }
 
