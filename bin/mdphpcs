@@ -1,7 +1,6 @@
 #!/usr/bin/env php
 <?php
 
-use PHP_CodeSniffer\Config;
 use PHP_CodeSniffer\Exceptions\DeepExitException;
 use SilverStripe\MD_PHP_CodeSniffer\Sniffer;
 
@@ -33,6 +32,7 @@ $numArgs = count($args);
 $removeArgs = [];
 
 $usingExplicitStandard = false;
+$fixing = false;
 
 // Check for any args we need from the CLI input
 for ($i = 0; $i < $numArgs; $i++) {
@@ -43,6 +43,11 @@ for ($i = 0; $i < $numArgs; $i++) {
         $removeArgs[] = $i + 1;
     } elseif (str_starts_with($arg, '--lint-language=')) {
         $lintLanguage = str_replace('--lint-language=', '', $arg);
+        $removeArgs[] = $i;
+    }
+
+    if ($arg === '--fix') {
+        $fixing = true;
         $removeArgs[] = $i;
     }
 
@@ -60,15 +65,9 @@ $_SERVER['argv'] = array_values($_SERVER['argv']);
 // Assume PHP if no explicit language was passed in.
 $lintLanguage ??= 'PHP';
 
-// PHPCS will just exist silently, so it's up to use to tell the user that their stuff won't
-// be properly linted
-if ($lintLanguage === 'JS' && !Config::getExecutablePath('eslint')) {
-    throw new RuntimeException('No eslint executable found');
-}
-
 try {
     $sniffer = new Sniffer();
-    $exitCode = $sniffer->run($lintLanguage, $usingExplicitStandard);
+    $exitCode = $sniffer->run($lintLanguage, $fixing, $usingExplicitStandard);
     exit($exitCode);
 } catch (DeepExitException $e) {
     echo $e->getMessage();
