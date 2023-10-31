@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit bootstrap="tests/bootstrap.php" colors="true">
+    <testsuites>
+        <testsuite name="all-except-fixing">
+            <directory>tests</directory>
+            <exclude>tests/SnifferFixTest.php</exclude>
+        </testsuite>
+        <testsuite name="fixing-only">
+            <file>tests/SnifferFixTest.php</file>
+        </testsuite>
+    </testsuites>
+</phpunit>

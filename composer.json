@@ -16,10 +16,14 @@
     },
     "autoload": {
         "psr-4": {
-            "SilverStripe\\MD_PHP_CodeSniffer\\": "src/"
+            "SilverStripe\\MD_PHP_CodeSniffer\\": "src/",
+            "SilverStripe\\MD_PHP_CodeSniffer\\Tests\\": "tests/"
         }
     },
     "bin": [
         "bin/mdphpcs"
-    ]
+    ],
+    "require-dev": {
+        "phpunit/phpunit": "^9.6"
+    }
 }

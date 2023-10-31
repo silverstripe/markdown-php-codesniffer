@@ -119,6 +119,10 @@ final class Sniffer
         // Creating the Config object populates it with all required settings based on the phpcs/phpcbf CLI arguments provided.
         $config = new Config();
 
+        if (defined('PHP_CODESNIFFER_IN_TESTS') && PHP_CODESNIFFER_IN_TESTS) {
+            $config->files = [str_replace('/src', '/tests/fixtures', __DIR__ )];
+        }
+
         // We don't support STDIN for passing markdown in
         if ($config->stdin === true) {
             // 3 is the exit code phpcs uses for errors like this
