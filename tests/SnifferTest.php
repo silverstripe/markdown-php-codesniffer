@@ -15,8 +15,13 @@ class SnifferTest extends TestCase
      *
      * @dataProvider provideFindFencedBlocks
      */
-    public function testFindFencedCodeBlocks(string $path, bool $exists, string $realPath = '', int $num = 0, string $content = '')
-    {
+    public function testFindFencedCodeBlocks(
+        string $path,
+        bool $exists,
+        string $realPath = '',
+        int $num = 0,
+        string $content = ''
+    ) {
         if (!defined('PHP_CODESNIFFER_CBF')) {
             define('PHP_CODESNIFFER_CBF', false);
         }
@@ -122,7 +127,11 @@ class SnifferTest extends TestCase
         // Check we didn't find problems where there aren't any
         $this->assertStringNotContainsString('nothing-to-lint', $output, 'nothing to lint, so nothing found');
         $this->assertStringNotContainsString('lint-but-no-problems', $output, 'linted but no problems found');
-        $this->assertStringNotContainsString('lint-with-problems_2', $output, 'that code block has no linting problems');
+        $this->assertStringNotContainsString(
+            'lint-with-problems_2',
+            $output,
+            'that code block has no linting problems'
+        );
 
         // Check we did find problems where there are plenty
         $this->assertStringContainsString('lint-with-problems_1', $output);

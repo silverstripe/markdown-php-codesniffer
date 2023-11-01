@@ -58,10 +58,10 @@ class FixerReport extends Cbf
             $timeTaken = ((microtime(true) - $startTime) * 1000);
             if ($timeTaken < 1000) {
                 $timeTaken = round($timeTaken);
-                echo " in {$timeTaken}ms".PHP_EOL;
+                echo " in {$timeTaken}ms" . PHP_EOL;
             } else {
                 $timeTaken = round(($timeTaken / 1000), 2);
-                echo " in $timeTaken secs".PHP_EOL;
+                echo " in $timeTaken secs" . PHP_EOL;
             }
         }
 
@@ -72,7 +72,7 @@ class FixerReport extends Cbf
 
         if (PHP_CODESNIFFER_VERBOSITY > 0) {
             if ($fixed === true) {
-                echo "\t=> Fixed content stored in memory".PHP_EOL;
+                echo "\t=> Fixed content stored in memory" . PHP_EOL;
             }
             ob_start();
         }
@@ -84,6 +84,5 @@ class FixerReport extends Cbf
         echo $report['filename'] . ">>$errorCount>>$warningCount>>$fixableCount>>$fixedCount" . PHP_EOL;
 
         return $fixed;
-
     }
 }

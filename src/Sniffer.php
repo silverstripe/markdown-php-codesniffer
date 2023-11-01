@@ -33,7 +33,8 @@ final class Sniffer
     public function run(string $lintLanguage, bool $fixing, bool $usingExplicitStandard = false): int
     {
         // MUST be false when not fixing, and MUST be true when fixing.
-        // This affects how codesniffer treats various CLI args, changes the output, and defines how some rules are actioned.
+        // This affects how codesniffer treats various CLI args, changes the output, and defines how
+        // some rules are actioned.
         if (!defined('PHP_CODESNIFFER_CBF')) {
             define('PHP_CODESNIFFER_CBF', $fixing);
         }
@@ -49,7 +50,7 @@ final class Sniffer
 
         // Find all the relevant code blocks for linting
         if (PHP_CODESNIFFER_VERBOSITY > 0) {
-            echo 'Finding markdown files... ';
+            echo 'Finding markdown files... ' . PHP_EOL;
         }
 
         $files = new FileList($sniffer->config, $sniffer->ruleset);
@@ -92,10 +93,14 @@ final class Sniffer
                 /** @var FencedCode $mdBlock */
                 $mdBlock = $codeBlocks[$dummy->path]['md'];
                 $indent = str_repeat(' ', $mdBlock->getOffset());
+                // Apply indent to each line of the original block content so we can search/replace
                 $origBlockContent = preg_replace('/^/m', $indent, $mdBlock->getLiteral());
-                $newBlockContent = preg_replace('/^/m', $indent, preg_replace('/\s*<\?php\n?/', '', $dummy->getContent()));
-                $newFileContent = str_replace($origBlockContent, $newBlockContent, file_get_contents($dummy->realPath));
+                // Strip out temporary php opening tag and apply indent to new block content
+                $newBlockContent = preg_replace('/\s*<\?php\n?/', '', $dummy->getContent());
+                $newBlockContent = preg_replace('/^/m', $indent, $newBlockContent);
 
+                // Search for the original block content and replace it with the new block content
+                $newFileContent = str_replace($origBlockContent, $newBlockContent, file_get_contents($dummy->realPath));
                 file_put_contents($dummy->realPath, $newFileContent);
             }
         }
@@ -105,7 +110,7 @@ final class Sniffer
         if ($numErrors === 0) {
             // No errors found.
             return 0;
-        } else if ($sniffer->reporter->totalFixable === 0) {
+        } elseif ($sniffer->reporter->totalFixable === 0) {
             // Errors found, but none of them can be fixed by PHPCBF.
             return 1;
         } else {
@@ -116,11 +121,12 @@ final class Sniffer
 
     private function prepareConfig(bool $usingExplicitStandard, string $lintLanguage, bool $fixing): Config
     {
-        // Creating the Config object populates it with all required settings based on the phpcs/phpcbf CLI arguments provided.
+        // Creating the Config object populates it with all required settings based on the phpcs/phpcbf
+        // CLI arguments provided.
         $config = new Config();
 
         if (defined('PHP_CODESNIFFER_IN_TESTS') && PHP_CODESNIFFER_IN_TESTS) {
-            $config->files = [str_replace('/src', '/tests/fixtures', __DIR__ )];
+            $config->files = [str_replace('/src', '/tests/fixtures', __DIR__)];
         }
 
         // We don't support STDIN for passing markdown in
@@ -164,7 +170,7 @@ final class Sniffer
     private function findFencedCodeblocks(FileList $paths, string $lintLanguage): array
     {
         if (PHP_CODESNIFFER_VERBOSITY > 0) {
-            echo 'Finding fenced codeblocks... ';
+            echo 'Finding fenced codeblocks... ' . PHP_EOL;
         }
 
         $blocks = [];
@@ -234,14 +240,16 @@ final class Sniffer
                 $currDir = dirname($block->realPath);
                 if ($lastDir !== $currDir) {
                     if (PHP_CODESNIFFER_VERBOSITY > 0) {
-                        echo 'Changing into directory ' . Common::stripBasepath($currDir, $sniffer->config->basepath) . PHP_EOL;
+                        echo 'Changing into directory '
+                            . Common::stripBasepath($currDir, $sniffer->config->basepath)
+                            . PHP_EOL;
                     }
 
                     $lastDir = $currDir;
                 }
 
                 $sniffer->processFile($block);
-            } else if (PHP_CODESNIFFER_VERBOSITY > 0) {
+            } elseif (PHP_CODESNIFFER_VERBOSITY > 0) {
                 echo 'Skipping ' . basename($block->path) . PHP_EOL;
             }
 
@@ -251,7 +259,8 @@ final class Sniffer
 
         restore_error_handler();
 
-        if (PHP_CODESNIFFER_VERBOSITY === 0
+        if (
+            PHP_CODESNIFFER_VERBOSITY === 0
             && $sniffer->config->interactive === false
             && $sniffer->config->showProgress === true
         ) {
