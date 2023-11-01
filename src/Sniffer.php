@@ -1,6 +1,6 @@
 <?php
 
-namespace SilverStripe\MD_PHP_CodeSniffer;
+namespace SilverStripe\MarkdownPhpCodeSniffer;
 
 use League\CommonMark\Environment\Environment;
 use League\CommonMark\Extension\CommonMark\CommonMarkCoreExtension;
@@ -65,10 +65,14 @@ final class Sniffer
         // Add code blocks to the file list for linting
         $todo = [];
         foreach ($codeBlocks as $block) {
-            $dummy = new CodeBlock($block['content'], $sniffer->ruleset, $sniffer->config);
-            $dummy->num = $block['num'];
-            $dummy->path = $block['path'];
-            $dummy->realPath = $block['realpath'];
+            $dummy = new CodeBlock(
+                $sniffer->ruleset,
+                $sniffer->config,
+                $block['content'],
+                $block['path'],
+                $block['realpath'],
+                $block['num']
+            );
             $todo[] = $dummy;
         }
 
@@ -107,6 +111,7 @@ final class Sniffer
 
         $sniffer->reporter->printReports();
 
+        // These return values are directly from Runner::runPHPCS()
         if ($numErrors === 0) {
             // No errors found.
             return 0;
@@ -148,6 +153,7 @@ final class Sniffer
             $config->standards = [__DIR__ . '/../phpcs.default.xml'];
         }
 
+        // Most of these overrides are directly from Runner::runPHPCBF()
         if ($fixing) {
             // Override some of the command line settings that might break the fixes.
             $config->generator = null;
@@ -228,7 +234,7 @@ final class Sniffer
         // Turn all sniff errors into exceptions.
         set_error_handler([$sniffer, 'handleErrors']);
 
-        $lastDir  = '';
+        $lastDir = '';
         $numBlocks = count($todo);
 
         // Process each block sequentially - running sniff in parallel isn't supported

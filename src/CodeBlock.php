@@ -1,8 +1,10 @@
 <?php
 
-namespace SilverStripe\MD_PHP_CodeSniffer;
+namespace SilverStripe\MarkdownPhpCodeSniffer;
 
+use PHP_CodeSniffer\Config;
 use PHP_CodeSniffer\Files\DummyFile;
+use PHP_CodeSniffer\Ruleset;
 
 class CodeBlock extends DummyFile
 {
@@ -11,6 +13,21 @@ class CodeBlock extends DummyFile
     public string $realPath;
 
     private string $finalContent = '';
+
+    public function __construct(
+        Ruleset $ruleset,
+        Config $config,
+        string $content,
+        string $path,
+        string $realPath,
+        int $num
+    ) {
+        parent::__construct($content, $ruleset, $config);
+
+        $this->path = $path;
+        $this->realPath = $realPath;
+        $this->num = $num;
+    }
 
     public function cleanUp()
     {

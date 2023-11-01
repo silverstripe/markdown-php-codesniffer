@@ -1,12 +1,12 @@
 <?php
 
-namespace SilverStripe\MD_PHP_CodeSniffer\Test;
+namespace SilverStripe\MarkdownPhpCodeSniffer\Test;
 
 use PHP_CodeSniffer\Files\FileList;
 use PHP_CodeSniffer\Ruleset;
 use PHPUnit\Framework\TestCase;
 use ReflectionMethod;
-use SilverStripe\MD_PHP_CodeSniffer\Sniffer;
+use SilverStripe\MarkdownPhpCodeSniffer\Sniffer;
 
 /**
  * Because of PHP CodeSniffer's reliance on constants, this has to be done separately from the other tests.

@@ -2,7 +2,7 @@
 <?php
 
 use PHP_CodeSniffer\Exceptions\DeepExitException;
-use SilverStripe\MD_PHP_CodeSniffer\Sniffer;
+use SilverStripe\MarkdownPhpCodeSniffer\Sniffer;
 
 // php_codesniffer autoloader (which itself includes the composer autoloader)
 $autoloadCandidates = [

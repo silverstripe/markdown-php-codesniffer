@@ -1,6 +1,6 @@
 <?php
 
-namespace SilverStripe\MD_PHP_CodeSniffer;
+namespace SilverStripe\MarkdownPhpCodeSniffer;
 
 use PHP_CodeSniffer\Exceptions\DeepExitException;
 use PHP_CodeSniffer\Files\File;

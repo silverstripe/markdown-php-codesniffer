@@ -1,12 +1,12 @@
 <?php
 
-namespace SilverStripe\MD_PHP_CodeSniffer\Test;
+namespace SilverStripe\MarkdownPhpCodeSniffer\Test;
 
 use ReflectionProperty;
 use PHP_CodeSniffer\Config;
 use PHP_CodeSniffer\Ruleset;
 use PHPUnit\Framework\TestCase;
-use SilverStripe\MD_PHP_CodeSniffer\CodeBlock;
+use SilverStripe\MarkdownPhpCodeSniffer\CodeBlock;
 
 class CodeBlockTest extends TestCase
 {
@@ -22,7 +22,7 @@ class CodeBlockTest extends TestCase
     public function testGetContent()
     {
         $config = new Config();
-        $block = new CodeBlock('This is the content', new Ruleset($config), $config);
+        $block = new CodeBlock(new Ruleset($config), $config, 'This is the content', '', '', 0);
 
         $this->assertSame('This is the content', $block->getContent());
 
@@ -34,7 +34,7 @@ class CodeBlockTest extends TestCase
     public function testCleanup()
     {
         $config = new Config();
-        $block = new CodeBlock('This is the content', new Ruleset($config), $config);
+        $block = new CodeBlock(new Ruleset($config), $config, 'This is the content', '', '', 0);
         $block->cleanUp();
 
         $this->assertSame('This is the content', $block->getContent());

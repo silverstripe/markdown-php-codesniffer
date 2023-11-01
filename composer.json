@@ -16,8 +16,8 @@
     },
     "autoload": {
         "psr-4": {
-            "SilverStripe\\MD_PHP_CodeSniffer\\": "src/",
-            "SilverStripe\\MD_PHP_CodeSniffer\\Tests\\": "tests/"
+            "SilverStripe\\MarkdownPhpCodeSniffer\\": "src/",
+            "SilverStripe\\MarkdownPhpCodeSniffer\\Tests\\": "tests/"
         }
     },
     "bin": [

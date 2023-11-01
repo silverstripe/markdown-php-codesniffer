@@ -1,12 +1,12 @@
 <?php
 
-namespace SilverStripe\MD_PHP_CodeSniffer\Test;
+namespace SilverStripe\MarkdownPhpCodeSniffer\Test;
 
 use PHP_CodeSniffer\Files\FileList;
 use PHP_CodeSniffer\Ruleset;
 use PHPUnit\Framework\TestCase;
 use ReflectionMethod;
-use SilverStripe\MD_PHP_CodeSniffer\Sniffer;
+use SilverStripe\MarkdownPhpCodeSniffer\Sniffer;
 
 class SnifferTest extends TestCase
 {
