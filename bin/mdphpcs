@@ -1,0 +1,75 @@
+#!/usr/bin/env php
+<?php
+
+use PHP_CodeSniffer\Exceptions\DeepExitException;
+use SilverStripe\MarkdownPhpCodeSniffer\Sniffer;
+
+// php_codesniffer autoloader (which itself includes the composer autoloader)
+$autoloadCandidates = [
+    // running from vendor/bin (recommended)
+    __DIR__ . '/../squizlabs/php_codesniffer/autoload.php',
+    // running from package in vendor/silverstripe/markdown-php-codesniffer/bin
+    __DIR__ . '/../../../squizlabs/php_codesniffer/autoload.php',
+    // running from package itself as root (used during development of this package itself)
+    __DIR__ . '/../vendor/squizlabs/php_codesniffer/autoload.php',
+];
+
+$autoloaded = false;
+foreach ($autoloadCandidates as $candidate) {
+    if (is_file($candidate)) {
+        require_once $candidate;
+        $autoloaded = true;
+        break;
+    }
+}
+
+if (!$autoloaded) {
+    die('Failed to include autoloader, unable to continue');
+}
+
+$args = $_SERVER['argv'];
+$numArgs = count($args);
+$removeArgs = [];
+
+$usingExplicitStandard = false;
+$fixing = false;
+
+// Check for any args we need from the CLI input
+for ($i = 0; $i < $numArgs; $i++) {
+    $arg = $args[$i];
+    if ($arg === '--lint-language') {
+        $lintLanguage = strtoupper($args[$i + 1]);
+        $removeArgs[] = $i;
+        $removeArgs[] = $i + 1;
+    } elseif (str_starts_with($arg, '--lint-language=')) {
+        $lintLanguage = strtoupper(str_replace('--lint-language=', '', $arg));
+        $removeArgs[] = $i;
+    }
+
+    if ($arg === '--fix') {
+        $fixing = true;
+        $removeArgs[] = $i;
+    }
+
+    if ($arg === '--standard' || str_starts_with($arg, '--standard=')) {
+        $usingExplicitStandard = true;
+    }
+}
+
+// Remove our args and reset array indices so phpcs can accurately fetch its own args
+foreach ($removeArgs as $i) {
+    unset($_SERVER['argv'][$i]);
+}
+$_SERVER['argv'] = array_values($_SERVER['argv']);
+
+// Assume PHP if no explicit language was passed in.
+$lintLanguage ??= 'PHP';
+
+try {
+    $sniffer = new Sniffer();
+    $exitCode = $sniffer->run($lintLanguage, $fixing, $usingExplicitStandard);
+    exit($exitCode);
+} catch (DeepExitException $e) {
+    echo $e->getMessage();
+    exit($e->getCode());
+}

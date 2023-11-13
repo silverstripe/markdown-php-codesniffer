@@ -1,0 +1,29 @@
+{
+    "name": "silverstripe/markdown-php-codesniffer",
+    "description": "A wrapper around squizlabs/PHP_CodeSniffer which lets you lint PHP fenced code blocks in markdown files",
+    "keywords": [
+        "phpcs",
+        "standards",
+        "markdown",
+        "sniffer",
+        "codesniffer"
+    ],
+    "license": "BSD-3-Clause",
+    "require": {
+        "php": "^8.0",
+        "squizlabs/php_codesniffer": "^3.7",
+        "league/commonmark": "^2.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "SilverStripe\\MarkdownPhpCodeSniffer\\": "src/",
+            "SilverStripe\\MarkdownPhpCodeSniffer\\Tests\\": "tests/"
+        }
+    },
+    "bin": [
+        "bin/mdphpcs"
+    ],
+    "require-dev": {
+        "phpunit/phpunit": "^9.6"
+    }
+}
