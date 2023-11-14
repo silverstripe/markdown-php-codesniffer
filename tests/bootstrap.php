@@ -1,6 +1,9 @@
 <?php
 
 // php_codesniffer autoloader
+
+use PHP_CodeSniffer\Util\Tokens;
+
 $autoloadCandidates = [
     // running from package itself as root
     __DIR__ . '/../vendor/squizlabs/php_codesniffer/autoload.php',
@@ -16,6 +19,15 @@ foreach ($autoloadCandidates as $candidate) {
         break;
     }
 }
+
+if (!$autoloaded) {
+    throw new RuntimeException("Couldn't find autoloader");
+}
+
+// Required to correctly run constant definitions in CI, though not needed locally for some reason.
+// Referencing a static property on the Tokens class forces the file containing it to be autoloaded,
+// which results in the constants (defined in the same file) being defined ahead of time.
+Tokens::$operators;
 
 if (!defined('PHP_CODESNIFFER_VERBOSITY')) {
     define('PHP_CODESNIFFER_VERBOSITY', 0);
