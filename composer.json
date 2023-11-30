@@ -10,7 +10,7 @@
     ],
     "license": "BSD-3-Clause",
     "require": {
-        "php": "^8.0",
+        "php": "^8.1",
         "squizlabs/php_codesniffer": "^3.7",
         "league/commonmark": "^2.4"
     },
