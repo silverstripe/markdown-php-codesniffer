@@ -27,7 +27,7 @@ class SnifferTest extends TestCase
         }
 
         $sniffer = new Sniffer();
-        $files = self::getFilesList($sniffer);
+        $files = SnifferTest::getFilesList($sniffer);
 
         $findFencedCodeblocks = new ReflectionMethod($sniffer, 'findFencedCodeblocks');
         $findFencedCodeblocks->setAccessible(true);

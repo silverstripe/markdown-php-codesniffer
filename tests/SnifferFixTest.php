@@ -23,7 +23,7 @@ class SnifferFixTest extends TestCase
 
         // backup original content
         $orig = [];
-        $paths = self::getFilesList($sniffer);
+        $paths = SnifferFixTest::getFilesList($sniffer);
         /** @var string $path */
         foreach ($paths as $path => $v) {
             $orig[$path] = file_get_contents($path);
