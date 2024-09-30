@@ -24,6 +24,6 @@
         "bin/mdphpcs"
     ],
     "require-dev": {
-        "phpunit/phpunit": "^11.3"
+        "phpunit/phpunit": "^9.6"
     }
 }
