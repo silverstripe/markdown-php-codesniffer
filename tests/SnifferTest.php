@@ -7,14 +7,14 @@ use PHP_CodeSniffer\Ruleset;
 use PHPUnit\Framework\TestCase;
 use ReflectionMethod;
 use SilverStripe\MarkdownPhpCodeSniffer\Sniffer;
-use PHPUnit\Framework\Attributes\DataProvider;
 
 class SnifferTest extends TestCase
 {
     /**
      * Validates that fenced code blocks are correctly identified and have the expected data
+     *
+     * @dataProvider provideFindFencedBlocks
      */
-    #[DataProvider('provideFindFencedBlocks')]
     public function testFindFencedCodeBlocks(
         string $path,
         bool $exists,
@@ -48,7 +48,7 @@ class SnifferTest extends TestCase
         }
     }
 
-    public static function provideFindFencedBlocks()
+    public function provideFindFencedBlocks()
     {
         return [
             'nothing to lint 1' => [
